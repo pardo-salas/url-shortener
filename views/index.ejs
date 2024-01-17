@@ -1,1 +1,43 @@
-hello World!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Acortador de Links</title>
+</head>
+<body class="mx-auto flex flex-col justify-center items-center px-8">
+    <h1 class="text-3xl text-">URL Shrinker</h1>
+    <form action="/shortUrl" method="POST">
+        <label for="fullUrl">URL</label>
+        <input class="border border-slate-200" type="url" name="fullUrl" id="fullUrl">
+        <button class="bg-slate-300 rounded-full px-2 hover:bg-slate-200" type="submit">Shrink</button>
+    </form>
+    <div class="relative overflow-x-auto my-2 shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">Full Url</th>
+                    <th scope="col" class="px-6 py-3">Short Url</th>
+                    <th scope="col" class="px-6 py-3">Clicks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% shortUrls.forEach(shortUrl => { %>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <td class="px-6 py-4">
+                            <a href="<%= shortUrl.full %>" target="_blank" rel="noopener noreferrer"><%= shortUrl.full %></a>
+                        </td>
+                        <td class="px-6 py-4">
+                            <a href="<%= shortUrl.short %>" target="_blank" rel="noopener noreferrer"><%= shortUrl.short %></a>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= shortUrl.clicks %>
+                        </td>
+                    </tr>
+                <%  }); %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
