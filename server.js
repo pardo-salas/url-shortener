@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose')
 const shortUrl = require('./models/shortUrl');
 const createHttpError = require('http-errors')
+const path = require('path')
 const app = express();
 
 mongoose.connect('mongodb://localhost/urlShortener', {
@@ -10,6 +11,8 @@ mongoose.connect('mongodb://localhost/urlShortener', {
 .then(()=>console.log('mongoose connected'))
 .catch((error)=>console.log('Error Connecting...'))
 
+app.use(express.static(path.join(__dirname,'public')))
+app.use(express.json())
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }))
 
@@ -18,11 +21,15 @@ app.get('/', async(req, res) => {
   res.render('index', { shortUrls: shortUrls });
 });
 
-app.post('/shortUrl',async(req,res,next)=>{
+function isURL(cadena) {
+  const expression = /^(ftp|http|https):\/\/[^ "]+$/;
+  return expression.test(cadena);
+}
+
+app.post('/',async(req,res,next)=>{
   try{
     const {fullUrl} = req.body
-    
-    if(!fullUrl){
+    if(!isURL(fullUrl)){
       throw createHttpError.BadRequest('Provide a valid url')
     }
     const urlExist = await shortUrl.findOne({ full: fullUrl });
@@ -49,6 +56,15 @@ app.get('/:shortUrl', async (req, res) => {
   res.redirect(url.full)
 })
 
+app.use((next)=>{
+  next(createHttpError.NotFound())
+})
+
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  res.render('index', { error: err.message });
+});
+
 app.listen(process.env.PORT || 5000, () => {
-  console.log('Servidor escuchando en el puerto 5000');
+  console.log('Server on port 5000');
 });
