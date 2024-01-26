@@ -46,14 +46,19 @@ app.post('/',async(req,res,next)=>{
   }
 })
 
-app.get('/:shortUrl', async (req, res) => {
-  const url = await shortUrl.findOne({ short: req.params.shortUrl })
-  if (url == null) return res.sendStatus(404)
-
-  url.clicks++
-  url.save()
-
-  res.redirect(url.full)
+app.get('/:shortId', async (req, res, next) => {
+  try {
+    const {shortId}= req.params
+    const url = await shortUrl.findOne({ short: shortId })
+    if(!url){
+      throw createHttpError.NotFound('Url do not exist')
+    }
+    url.clicks++
+    url.save()
+    res.redirect(url.full)
+  } catch (error) {
+    next(error)
+  }
 })
 
 app.use((next)=>{
