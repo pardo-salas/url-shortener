@@ -13,6 +13,9 @@
             <div class="container mx-auto flex flex-col px-5 py-32 justify-center items-center">
                 <div class="w-full md:w-2/3 flex flex-col mb-16 items-center text-center">
                     <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-white">Open Source URL Shortener</h1>
+                    <% if (locals.error){ %>
+                        <p class="text-xl text-red-500"><%= error %></p>
+                    <% } %>
                         <form action="/" method="POST" class="flex flex-col w-full justify-center items-center gap-3">
                             <div class="relative mr-4 lg:w-full xl:w-1/2 w-2/4 md:w-full text-left">
                                 <label for="hero-field" class="leading-7 text-sm text-gray-400">Insert URL</label>
@@ -21,9 +24,6 @@
                             <button class="text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:ring-2 hover:ring-neutral-800 hover:bg-blue-700 rounded text-lgrelative inline-flex h-12 items-center justify-center overflow-hidden rounded-md border border-slate-800 bg-gradient-to-r from-slate-900 to-slate-950 px-6 font-medium text-slate-300 shadow-2xl transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50" type="submit">Shorten URL</button>
                         </form>
                 </div>
-                <% if (locals.error){ %>
-                    <p class="error"><%= error %></p>
-                <% } %>
                 <div class="short-url">
                     <% if (locals.short_url) {%>
                     <a target="_blank" href="<%= short_url %>"><%= short_url %></a>
