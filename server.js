@@ -34,13 +34,13 @@ app.post('/',async(req,res,next)=>{
     }
     const urlExist = await shortUrl.findOne({ full: fullUrl });
     if(urlExist){
-      res.render('index',{short_url: `http://localhost:5000/${urlExist.short}`})
+      res.render('urlcreated',{short_url: `${req.headers.host}/${urlExist.short}`,full_url:fullUrl})
       return
     }
     const response_url= await shortUrl.create({ full: fullUrl })
     const result = await response_url.save()
     
-    res.render('index',{short_url: `http://localhost:5000/${result.short}`})
+    res.render('urlcreated',{short_url: `${req.headers.host}/${result.short}`,full_url:fullUrl})
   }catch (error){
     next(error)
   }
