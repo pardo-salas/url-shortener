@@ -2,14 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose')
 const shortUrl = require('./models/shortUrl');
 const createHttpError = require('http-errors')
-const path = require('path')
+const path = require('path');
+require('dotenv').config();
 const app = express();
 
-mongoose.connect('mongodb://localhost/urlShortener', {
-  useNewUrlParser: true, useUnifiedTopology: true
-})
+mongoose.connect(process.env.MONGODB_URI)
 .then(()=>console.log('mongoose connected'))
-.catch((error)=>console.log('Error Connecting...'))
+.catch((error)=>console.log('Error Connecting...'+error))
 
 app.use(express.static(path.join(__dirname,'public')))
 app.use(express.json())
@@ -51,7 +50,7 @@ app.get('/:shortId', async (req, res, next) => {
     const {shortId}= req.params
     const url = await shortUrl.findOne({ short: shortId })
     if(!url){
-      throw createHttpError.NotFound('Url do not exist')
+      throw createHttpError.NotFound('This Url does not exist.')
     }
     url.clicks++
     url.save()
