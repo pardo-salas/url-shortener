@@ -32,14 +32,17 @@ app.post('/',async(req,res,next)=>{
       throw createHttpError.BadRequest('Provide a valid url')
     }
     const urlExist = await shortUrl.findOne({ full: fullUrl });
+    const protocol = req.secure ? 'https://' : 'http://'; // Verifica si se está utilizando HTTPS
+    const host = req.headers.host;
+    const fullPath = protocol + host;
     if(urlExist){
-      res.render('urlcreated',{short_url: `${req.headers.host}/${urlExist.short}`,full_url:fullUrl})
+      res.render('urlcreated',{short_url: `${fullPath}/${urlExist.short}`,full_url:fullUrl})
       return
     }
     const response_url= await shortUrl.create({ full: fullUrl })
     const result = await response_url.save()
     
-    res.render('urlcreated',{short_url: `${req.headers.host}/${result.short}`,full_url:fullUrl})
+    res.render('urlcreated',{short_url: `${fullPath}/${result.short}`,full_url:fullUrl})
   }catch (error){
     next(error)
   }
