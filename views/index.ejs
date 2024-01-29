@@ -13,13 +13,13 @@
         <section class="text-gray-400 body-font min-h-screen">
             <div class="container mx-auto flex flex-col px-5 py-32 justify-center items-center">
                 <div class="w-full md:w-2/3 flex flex-col mb-16 items-center text-center max-w-lg">
-                    <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-white">Open Source URL Shortener</h1>
+                    <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-white">URL Shortener</h1>
+                    <p class="text-2xl">Paste your link to shorten it</p>
                     <% if (locals.error){ %>
                         <p class="text-xl text-red-500"><%= error %></p>
                     <% } %>
-                    <form action="/" method="POST" class="flex flex-col w-full justify-center items-center gap-3">
+                    <form action="/" method="POST" class="flex flex-col w-full justify-center items-center gap-3 m-2">
                         <div class="relative mr-4 lg:w-full w-2/4 md:w-full text-left">
-                            <label for="fullUrl" class="leading-7 text-sm text-gray-400">Insert URL</label>
                             <input type="text" placeholder="Enter long link" type="url" name="fullUrl" id="fullUrl" class="border-1 block h-12 w-full rounded-md border border-double border-slate-800 border-transparent bg-[linear-gradient(#000,#000),linear-gradient(to_right,#334454,#334454)]	bg-origin-border px-3 py-2 text-slate-200 transition-all duration-500 [background-clip:padding-box,_border-box] placeholder:text-slate-500 focus:bg-[linear-gradient(#000,#000),linear-gradient(to_right,#c7d2fe,#8678f9)] focus:outline-none"> 
                         </div>
                         <button class="text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:ring-2 hover:ring-neutral-800 hover:bg-blue-700 rounded text-lgrelative inline-flex h-12 items-center justify-center overflow-hidden rounded-md border border-slate-800 bg-gradient-to-r from-slate-900 to-slate-950 px-6 font-medium text-slate-300 shadow-2xl transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50" type="submit">Shorten URL</button>
